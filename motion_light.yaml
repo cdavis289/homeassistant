@@ -14,9 +14,8 @@ blueprint:
       name: Lights
       description: The lights triggered by motion sensor
       selector:
-        target:
-          entity:
-            domain: light
+        entity:
+          domain: light
     motion_status:
       name: Motion Activation Status
       description: Input boolean variable to track motion activation status
