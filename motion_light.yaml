@@ -35,13 +35,11 @@ blueprint:
       selector:
         entity:
           domain: input_boolean
-
 trigger:
-- platform: state
-entity_id:
-- !input motion_sensor
-from: 'off'
-to: 'on'
+  platform: state
+  entity_id: !input motion_sensor
+  from: 'off'
+  to: 'on'
 for:
   hours: 0
   minutes: 0
@@ -58,8 +56,7 @@ for:
   seconds: 5
 id: '2'
   - platform: state
-entity_id:
-  - !input target_light
+entity_id: !input target_light
 from: 'off'
 to: 'on'
 id: '3'
@@ -169,4 +166,4 @@ action:
       data: {}
       target:
         entity_id: !input motion_status
-  mode: single
+mode: single
