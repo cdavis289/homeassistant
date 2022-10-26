@@ -35,133 +35,139 @@ blueprint:
       selector:
         entity:
           domain: input_boolean
+
   trigger:
     - platform: state
-      entity_id: !input motion_sensor
-      from: 'off'
-      to: 'on'
+      entity_id:
+        - !input motion_sensor
+      from: "off"
+      to: "on"
       for:
         hours: 0
         minutes: 0
         seconds: 0
-      id: '1'
-  - platform: state
-    entity_id: !input motion_sensor
-    from: 'on'
-    to: 'off'
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 5
-    id: '2'
-  platform: state
-  entity_id: !input target_light
-  from: 'off'
-  to: 'on'
-  id: '3'
-    platform: state
-  entity_id: !input target_light
-  from: 'on'
-  to: 'off'
-  id: '4'
-condition: []
-action:
-  - choose:
-    - conditions:
-      - condition: and
-        conditions:
-        - condition: trigger
-          id: '1'
-        - condition: state
-          entity_id: !input motion_status
-          state: 'on'
-    sequence:
-    - service: light.turn_on
-      data: {}
-      target:
-        entity_id: !input target_light
-    - delay:
+      id: "1"
+    - platform: state
+      entity_id:
+        - !input motion_sensor
+      from: "on"
+      to: "off"
+      for:
         hours: 0
         minutes: 0
-        seconds: 0
-        milliseconds: 100
-      enabled: false
-    - service: mqtt.publish
-      data:
-        topic: !input target_light_MQTT_Set
-        payload_template: '{{ states(''!input target_light_brightness'') | int }}'
-      enabled: false
-  - conditions:
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: !input target_light
-        state: 'on'
-      - condition: trigger
-        id: '2'
-    sequence:
-    - service: mqtt.publish
-      data:
-        topic: !input target_light_MQTT_Get
-        payload: '{ "brightness": "" }'
-      enabled: false
-    - service: light.turn_off
-      data:
-        transition: 2
-      target:
-        entity_id: !input target_light
-    - if:
-      - condition: state
-        entity_id: !input motion_status
-        state: 'off'
-      then:
-      - service: homeassistant.turn_on
-        data: {}
-        target:
-          entity_id: !input motion_status
-  - conditions:
-    - condition: and
-      conditions:
-      - condition: trigger
-        id: '3'
-      - condition: state
-        entity_id: !input motion_status
-        state: 'off'
-    sequence:
-    - delay:
-        hours: 0
-        minutes: 0
-        seconds: 0
-        milliseconds: 100
-      enabled: false
-    - service: mqtt.publish
-      data:
-        topic: !input target_light_MQTT_Set
-        payload_template: '{{ states(''!input target_light_brightness'') | int }}'
-      enabled: false
-    - service: homeassistant.turn_on
-      data: {}
-      target:
-        entity_id: !input motion_status
-  - conditions:
-    - condition: and
-      conditions:
-      - condition: trigger
-        id: '4'
-      - condition: state
-        entity_id: !input motion_status
-        state: 'on'
-      - condition: state
-        entity_id: !input motion_sensor
-        state: 'on'
-    sequence:
-    - service: mqtt.publish
-      data:
-        topic: !input target_light_MQTT_Get
-        payload: '{ "brightness": "" }'
-      enabled: false
-    - service: homeassistant.turn_off
-      data: {}
-      target:
-        entity_id: !input motion_status
-mode: single
+        seconds: 5
+      id: "2"
+    - platform: state
+      entity_id:
+        - !input target_light
+      from: "off"
+      to: "on"
+      id: "3"
+    - platform: state
+      entity_id:
+        - !input target_light
+      from: "on"
+      to: "off"
+      id: "4"
+  condition: []
+  action:
+    - choose:
+        - conditions:
+            - condition: and
+              conditions:
+                - condition: trigger
+                  id: "1"
+                - condition: state
+                  entity_id: !input motion_status
+                  state: "on"
+          sequence:
+            - service: light.turn_on
+              data: {}
+              target:
+                entity_id: !input target_light
+            - delay:
+                hours: 0
+                minutes: 0
+                seconds: 0
+                milliseconds: 100
+              enabled: false
+            - service: mqtt.publish
+              data:
+                topic: !input target_light_MQTT_Set
+                payload_template: "{{ states('!input target_light_brightness') | int }}"
+              enabled: false
+        - conditions:
+            - condition: and
+              conditions:
+                - condition: state
+                  entity_id: !input target_light
+                  state: "on"
+                - condition: trigger
+                  id: "2"
+          sequence:
+            - service: mqtt.publish
+              data:
+                topic: !input target_light_MQTT_Get
+                payload: "{ \"brightness\": \"\" }"
+              enabled: false
+            - service: light.turn_off
+              data:
+                transition: 2
+              target:
+                entity_id: !input target_light
+            - if:
+                - condition: state
+                  entity_id: !input motion_status
+                  state: "off"
+              then:
+                - service: homeassistant.turn_on
+                  data: {}
+                  target:
+                    entity_id: !input motion_status
+        - conditions:
+            - condition: and
+              conditions:
+                - condition: trigger
+                  id: "3"
+                - condition: state
+                  entity_id: !input motion_status
+                  state: "off"
+          sequence:
+            - delay:
+                hours: 0
+                minutes: 0
+                seconds: 0
+                milliseconds: 100
+              enabled: false
+            - service: mqtt.publish
+              data:
+                topic: !input target_light_MQTT_Set
+                payload_template: "{{ states('!input target_light_brightness') | int }}"
+              enabled: false
+            - service: homeassistant.turn_on
+              data: {}
+              target:
+                entity_id: !input motion_status
+        - conditions:
+            - condition: and
+              conditions:
+                - condition: trigger
+                  id: "4"
+                - condition: state
+                  entity_id: !input motion_status
+                  state: "on"
+                - condition: state
+                  entity_id: !input motion_sensor
+                  state: "on"
+          sequence:
+            - service: mqtt.publish
+              data:
+                topic: !input target_light_MQTT_Get
+                payload: "{ \"brightness\": \"\" }"
+              enabled: false
+            - service: homeassistant.turn_off
+              data: {}
+              target:
+                entity_id: !input motion_status
+  mode: single
+  
