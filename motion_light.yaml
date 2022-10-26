@@ -47,9 +47,9 @@ for:
   minutes: 0
   seconds: 0
 id: '1'
-  platform: state
+  - platform: state
 entity_id:
-  !input motion_sensor
+  - !input motion_sensor
 from: 'on'
 to: 'off'
 for:
@@ -57,15 +57,15 @@ for:
   minutes: 0
   seconds: 5
 id: '2'
-  platform: state
+  - platform: state
 entity_id:
-  !input target_light
+  - !input target_light
 from: 'off'
 to: 'on'
 id: '3'
-  platform: state
+  - platform: state
 entity_id:
-- !input target_light
+  - !input target_light
 from: 'on'
 to: 'off'
 id: '4'
