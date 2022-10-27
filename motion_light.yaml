@@ -28,7 +28,7 @@ blueprint:
   source_url: https://github.com/cdavis289/homeassistant/blob/main/motion_light.yaml
 trigger:
 - platform: state
-  entity_id: !input motion_sensor
+  entity_id: !input 'motion_sensor'
   from: 'off'
   to: 'on'
   for:
@@ -37,7 +37,7 @@ trigger:
     seconds: 0
   id: '1'
 - platform: state
-  entity_id: !input motion_sensor
+  entity_id: !input 'motion_sensor'
   from: 'on'
   to: 'off'
   for:
@@ -46,12 +46,12 @@ trigger:
     seconds: 5
   id: '2'
 - platform: state
-  entity_id: !input target_light
+  entity_id: !input 'target_light'
   from: 'off'
   to: 'on'
   id: '3'
 - platform: state
-  entity_id: !input target_light
+  entity_id: !input 'target_light'
   from: 'on'
   to: 'off'
   id: '4'
@@ -64,16 +64,16 @@ action:
       - condition: trigger
         id: '1'
       - condition: state
-        entity_id: !input motion_status
+        entity_id: !input 'motion_status'
         state: 'on'
     sequence:
     - service: light.turn_on
-      target: !input target_light
+      target: !input 'target_light'
   - conditions:
     - condition: and
       conditions:
       - condition: state
-        entity_id: !input target_light
+        entity_id: !input 'target_light'
         state: 'on'
       - condition: trigger
         id: '2'
@@ -81,37 +81,37 @@ action:
     - service: light.turn_off
       data:
         transition: 2
-      target: !input target_light
+      target: !input 'target_light'
     - if:
       - condition: state
-        entity_id: !input motion_status
+        entity_id: !input 'motion_status'
         state: 'off'
       then:
       - service: homeassistant.turn_on
-        target: !input motion_status
+        target: !input 'motion_status'
   - conditions:
     - condition: and
       conditions:
       - condition: trigger
         id: '3'
       - condition: state
-        entity_id: !input motion_status
+        entity_id: !input 'motion_status'
         state: 'off'
     sequence:
     - service: homeassistant.turn_on
-      target: !input motion_status
+      target: !input 'motion_status'
   - conditions:
     - condition: and
       conditions:
       - condition: trigger
         id: '4'
       - condition: state
-        entity_id: !input motion_status
+        entity_id: !input 'motion_status'
         state: 'on'
       - condition: state
-        entity_id: !input motion_sensor
+        entity_id: !input 'motion_sensor'
         state: 'on'
     sequence:
     - service: homeassistant.turn_off
-      target: !input motion_status
+      target: !input 'motion_status'
 mode: single
