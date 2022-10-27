@@ -106,12 +106,10 @@ action:
       - condition: trigger
         id: '4'
       - condition: state
-        entity_id:
-        - !input motion_status
+        entity_id: !input motion_status
         state: 'on'
       - condition: state
-        entity_id:
-        - !input motion_sensor
+        entity_id: !input motion_sensor
         state: 'on'
     sequence:
     - service: homeassistant.turn_off
