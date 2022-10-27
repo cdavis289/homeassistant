@@ -84,8 +84,7 @@ action:
       target: !input target_light
     - if:
       - condition: state
-        entity_id:
-        - !input motion_status
+        entity_id: !input motion_status
         state: 'off'
       then:
       - service: homeassistant.turn_on
