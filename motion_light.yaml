@@ -68,7 +68,8 @@ action:
         state: 'on'
     sequence:
     - service: light.turn_on
-      target: !input 'target_light'
+      target: 
+        entity_id: !input 'target_light'
   - conditions:
     - condition: and
       conditions:
@@ -81,7 +82,8 @@ action:
     - service: light.turn_off
       data:
         transition: 2
-      target: !input 'target_light'
+      target: 
+        entity_id: !input 'target_light'
     - if:
       - condition: state
         entity_id: !input 'motion_status'
@@ -99,7 +101,8 @@ action:
         state: 'off'
     sequence:
     - service: homeassistant.turn_on
-      target: !input 'motion_status'
+      target:
+        entity_id: !input 'motion_status'
   - conditions:
     - condition: and
       conditions:
@@ -113,5 +116,6 @@ action:
         state: 'on'
     sequence:
     - service: homeassistant.turn_off
-      target: !input 'motion_status'
+      target:
+        entity_id: !input 'motion_status'
 mode: single
