@@ -8,8 +8,7 @@ services:
     ports:
       - '123:123/udp'
     environment:
-      - NTP_SERVERS="time1.google.com,time2.google.com,time3.google.com,time4.google.com"
-      #- NTP_SERVERS=time.cloudflare.com
+      - NTP_SERVERS="0.us.pool.ntp.org,1.us.pool.ntp.org,2.us.pool.ntp.org,3.us.pool.ntp.org"
       - LOG_LEVEL=0
     #labels: "com.centurylinklabs.watchtower.enable=true"
 
