@@ -260,6 +260,8 @@ services:
     image: rand256/valetudo-mapper
     container_name: valetudo-mapper
     restart: always
+    depends_on:
+      - mosquitto
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${DOCKERDATADIR}/valetudo-mapper/app/:/app
