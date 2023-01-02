@@ -264,7 +264,7 @@ services:
       - mosquitto
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERDATADIR}/valetudo-mapper/app/:/app
+      - ${DOCKERDATADIR}/valetudo-mapper/app/config.json:/app/config.json
     ports:
       - '3100:3000'
 
