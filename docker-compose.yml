@@ -264,7 +264,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ${DOCKERDATADIR}/valetudo-mapper/app/:/app
     ports:
-      - '8126:8126'
+      - '3100:3000'
 
 networks:
   zwave:
