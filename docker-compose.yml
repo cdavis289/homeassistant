@@ -256,17 +256,5 @@ services:
     ports:
       - '8126:8126'
 
-  valetudo-mapper:
-    image: rand256/valetudo-mapper
-    container_name: valetudo-mapper
-    restart: always
-    depends_on:
-      - mosquitto
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERDATADIR}/valetudo-mapper/app/config.json:/app/config.json
-    ports:
-      - '3100:3000'
-
 networks:
   zwave:
