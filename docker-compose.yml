@@ -23,6 +23,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${DOCKERDATADIR}/homeassistant/config:/config
+    devices:
+      - /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20220817102643-if00:/dev/ttyUSB2
     depends_on:
       - influxdb
       - mariadb
@@ -208,7 +210,7 @@ services:
     networks:
       - zwave
     devices:
-      - '/dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_4458e3631d94eb11aeaf32703d98b6d1-if00-port0:/dev/ttyUSB0'
+      - /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_4458e3631d94eb11aeaf32703d98b6d1-if00-port0:/dev/ttyUSB0
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${DOCKERDATADIR}/zwave-js-ui/data:/usr/src/app/store
