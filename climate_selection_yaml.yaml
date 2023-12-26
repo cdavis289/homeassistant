@@ -1,0 +1,225 @@
+type: custom:stack-in-card
+keep:
+  margin: false
+  box_shadow: false
+  background: false
+cards:
+  - type: grid
+    square: false
+    columns: 2
+    cards:
+      - type: custom:mushroom-template-card
+        style: |
+          ha-card {
+            padding-bottom: 1px !important;
+          }
+        primary: |
+          Thermostat
+        secondary: >
+          Currently {{ state_attr('climate.heater', 'current_temperature')|
+          round(0) }} °F
+        icon: |-
+          {% set mode = states('climate.heater') %}
+          {% if mode == 'off' %}
+          mdi:power
+          {% elif mode == 'cool' %}
+          mdi:snowflake
+          {% elif mode == 'heat' %}
+          mdi:fire
+          {% elif mode == 'heat_cool' %}
+          mdi:autorenew
+          {% else %}
+          mdi:home-thermometer
+          {% endif %}
+        icon_color: |-
+          {% set status = state_attr('climate.heater','hvac_action') %}
+          {% if status == 'off' %}
+          grey
+          {% elif status == 'cooling' %}
+          blue
+          {% elif status == 'heating' %}
+          red
+          {% else %}
+          grey
+          {% endif %}
+        tap_action: none
+      - type: custom:simple-thermostat
+        style: |
+          ha-card {
+            --st-spacing: 1px;
+            --st-font-size-xl: 20px;
+            --st-font-size-m: 20px;
+          }
+          header {
+            margin-bottom: 12px !important;
+            padding-bottom: 1px !important;
+          }
+          ha-card .thermostat-trigger { 
+            color: #9e9e9e;
+          }
+        entity: climate.heater
+        header: false
+        decimals: '0'
+        fallback: 'Off'
+        hide:
+          temperature: true
+          state: true
+          icons: true
+        layout:
+          mode:
+            names: false
+            icons: false
+            headings: false
+          step: row
+        step_size: '1'
+        control:
+          hvac:
+            'off': false
+            heat: false
+            cool: false
+            heat_cool: false
+  - type: custom:mushroom-select-card
+    entity: input_select.current_temperature
+    fill_container: false
+    layout: horizontal
+    icon_type: icon
+    icon: mdi:home-thermometer
+    secondary_info: none
+  - type: custom:simple-thermostat
+    style: |
+      ha-card {
+        --st-font-size-toggle-label: 6px
+        --st-spacing: 0px;
+        --st-default-spacing: 1px;
+        margin-left: 12px;
+        margin-right: 12px;
+      }
+      ha-card .mode-item {
+        --st-spacing: 10px;
+        border-radius: 10px;
+      }
+      ha-card .modes {
+        grid-gap: 4px
+      }
+    entity: climate.heater
+    header: false
+    setpoints: false
+    hide:
+      temperature: true
+      state: true
+    layout:
+      mode:
+        headings: false
+        names: true
+        icons: true
+      step: col
+    control:
+      hvac:
+        'off':
+          name: Power
+        heat:
+          name: Heat
+        cool: false
+        heat_cool: false
+      fan:
+        auto:
+          name: Auto
+          icon: mdi:fan-auto
+        'on':
+          name: 'On'
+          icon: mdi:fan
+  - type: custom:mini-graph-card
+    entities:
+      - entity: sensor.current_temp_sensor
+        name: Current Temp
+        show_state: true
+        show_graph: false
+      - entity: sensor.gw1100_temp
+        name: Outside
+        color: DodgerBlue
+      - entity: sensor.1_kit_temp_temperature
+        name: Kitchen
+        color: NavajoWhite
+      - entity: sensor.1_ecobee_temperature
+        name: Hallway
+        color: silver
+      - entity: sensor.1_br2_temp_temperature
+        name: Boonos Room
+        color: SandyBrown
+      - entity: sensor.1_br1_temp_temperature
+        name: Master Bedroom
+        color: MediumOrchid
+      - entity: sensor.1_btm_temp_temperature
+        name: Bathroom
+        color: LightPink
+      - entity: sensor.1_lvr_temp_temperature
+        name: Living Room
+        color: MediumSeaGreen
+      - entity: sensor.0_off_temp_temperature
+        name: Office
+        color: Turquoise
+      - entity: sensor.0_gar_temp
+        name: Garage
+        color: Crimson
+      - color: gray
+        entity: sensor.nighttime
+        name: Night
+        show_line: false
+        show_points: false
+        show_legend: false
+        y_axis: secondary
+    hours_to_show: 12
+    decimals: 0
+    line_width: 3
+    font_size: 50
+    animate: false
+    name: Current Temperature
+    tap_action: none
+    show:
+      labels: true
+      icon: true
+      state: true
+      legend: true
+      fill: fade
+  - type: custom:mini-graph-card
+    entities:
+      - entity: sensor.gw1100_humidity
+        name: Outside
+        color: DodgerBlue
+      - entity: sensor.1_kit_temp_humidity
+        name: Kitchen
+        color: NavajoWhite
+      - entity: sensor.1_ecobee_humidity
+        name: Hallway
+        color: silver
+      - entity: sensor.1_br2_temp_humidity
+        name: Boonos Room
+        color: SandyBrown
+      - entity: sensor.1_br1_temp_humidity
+        name: Master Bedroom
+        color: MediumOrchid
+      - entity: sensor.1_btm_temp_humidity
+        name: Bathroom
+        color: LightPink
+      - entity: sensor.1_lvr_temp_humidity
+        name: Living Room
+        color: MediumSeaGreen
+      - entity: sensor.0_off_temp_humidity
+        name: Office
+        color: Turquoise
+      - entity: sensor.gw1100_humidityin
+        name: Garage
+        color: Crimson
+    hours_to_show: 12
+    decimals: 0
+    line_width: 3
+    font_size: 50
+    animate: false
+    name: Current Humidity
+    tap_action: none
+    show:
+      labels: true
+      icon: true
+      state: true
+      legend: true
+      fill: fade
